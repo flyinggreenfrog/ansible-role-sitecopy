@@ -1,0 +1,22 @@
+---
+- name: "basedir - ensure created"
+  file:
+    dest: "{{ item.home }}/.sitecopy"
+    state: directory
+    owner: "{{ item.user | default(omit) }}"
+    group: "{{ item.group | default(omit) }}"
+    mode: 0700
+  loop: "{{ sitecopy__users }}"
+  loop_control:
+    label: "{{ item.home }}/.sitecopy"
+
+- name: "sitecopyrc - ensure configured"
+  template:
+    dest: "{{ item.home }}/.sitecopyrc"
+    src: "sitecopyrc.j2"
+    owner: "{{ item.user | default(omit) }}"
+    group: "{{ item.group | default(omit) }}"
+    mode: 0400
+  loop: "{{ sitecopy__users }}"
+  loop_control:
+    label: "{{ item.home }}/.sitecopyrc"

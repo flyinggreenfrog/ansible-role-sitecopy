@@ -1,0 +1,19 @@
+---
+- name: "install variables - ensure validated"
+  assert:
+    that:
+      - "{{ item.test }}"
+    quiet: True
+  loop:
+    - test: "{{ sitecopy__packages_state in ['present', 'absent'] }}"
+      msg: "sitecopy__packages_state in ['present', 'absent'] ->
+        '{{ sitecopy__packages_state }}'"
+    - test: "{{ sitecopy__packages | type_debug == 'list' }}"
+      msg: "sitecopy__packages is list -> '{{ sitecopy__packages }}'"
+  loop_control:
+    label: "{{ item.msg }}"
+
+- name: "packages - ensure state"
+  package:
+    name: "{{ sitecopy__packages }}"
+    state: "{{ sitecopy__packages_state }}"

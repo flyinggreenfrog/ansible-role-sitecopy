@@ -1,0 +1,28 @@
+{{ ansible_managed | comment }}
+{% if item.sitecopy__sites is defined %}
+{% for site in item.sitecopy__sites %}
+
+site {{ site.site }}
+  server {{ site.server }}
+  username {{ site.username }}
+  password {{ site.password }}
+  local {{ site.local }}
+  remote {{ site.remote }}
+{% if sitecopy__default_excludes is defined %}
+{% for exclude in sitecopy__default_excludes %}
+  exclude {{ exclude }}
+{% endfor %}
+{% endif %}
+{% if site.excludes is defined %}
+{% for exclude in site.excludes %}
+  exclude {{ exclude }}
+{% endfor %}
+{% endif %}
+  state checksum
+  checkmoved renames
+  safe
+{% endfor %}
+{% else %}
+
+# Empty
+{% endif %}

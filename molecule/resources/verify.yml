@@ -1,0 +1,10 @@
+---
+- name: Verify
+  hosts: all
+  become: True
+  tasks:
+    - name: "default role variables - ensure included"
+      include_vars: "../../defaults/main.yml"
+
+    - name: "OS specific role variables - ensure included"
+      include_vars: "../../vars/{{ ansible_os_family }}.yml"

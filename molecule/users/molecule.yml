@@ -1,0 +1,40 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+platforms:
+  # https://app.vagrantup.com/boxes/search
+  - name: ansible-role-sitecopy-opensuse-15.2
+    box: opensuse/Leap-15.2.x86_64
+    box_version: 15.2.31.186
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      interpreter_python: /usr/bin/python3
+      stdout_callback: yaml
+  inventory:
+    group_vars:
+      all:
+        sitecopy__users:
+          - user: vagrant
+            group: vagrant
+            home: /home/vagrant
+            sitecopy__sites:
+              - site: www
+                server: ftp.example.org
+                username: USERNAME
+                password: PASSWORD
+                local: ~/www
+                remote: /
+                excludes:
+                  - /*.swp
+verifier:
+  name: ansible

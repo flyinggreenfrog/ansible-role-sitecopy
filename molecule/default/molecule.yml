@@ -1,0 +1,24 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+platforms:
+  # https://app.vagrantup.com/boxes/search
+  - name: ansible-role-sitecopy-opensuse-15.2
+    box: opensuse/Leap-15.2.x86_64
+    box_version: 15.2.31.186
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      interpreter_python: /usr/bin/python3
+      stdout_callback: yaml
+verifier:
+  name: ansible
