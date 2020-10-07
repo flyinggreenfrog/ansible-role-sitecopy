@@ -2,17 +2,18 @@
 - name: "main variables - ensure validated"
   assert:
     that:
-      - "{{ item.test }}"
-    quiet: True
+      - "{{ item.result }}"
+    quiet: "{{ sitecopy__quiet }}"
   loop:
-    - test: "{{ sitecopy__users | type_debug == 'list' }}"
-      msg: "sitecopy__users is list ->
-        '{{ sitecopy__users }}'"
-    - test: "{{ sitecopy__packages_manage is boolean }}"
-      msg: "sitecopy__packages_manage is boolean ->
-        '{{ sitecopy__packages_manage }}'"
+    - result: "{{ sitecopy__users | type_debug == 'list' }}"
+      description: "sitecopy__users is list"
+      value: "{{ sitecopy__users | type_debug }}"
+    - result: "{{ sitecopy__packages_manage is boolean }}"
+      description: "sitecopy__packages_manage is boolean"
+      value: "{{ sitecopy__packages_manage }}"
   loop_control:
-    label: "{{ item.msg }}"
+    label: "{{ item.description }}"
+  tags: sitecopy
 
 - name: "user existence - ensure checked"
   getent:
@@ -21,6 +22,7 @@
   loop: "{{ sitecopy__users }}"
   loop_control:
     label: "sitecopy__users: {{ item.user }}"
+  tags: sitecopy
 
 - name: "OS family specific variables - ensure included"
   include_vars: "{{ ansible_os_family }}.yml"
