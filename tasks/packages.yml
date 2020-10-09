@@ -1,0 +1,5 @@
+---
+- name: 'packages - ensure state'
+  package:
+    name: '{{ sitecopy__packages }}'
+    state: '{{ sitecopy__packages_state }}'

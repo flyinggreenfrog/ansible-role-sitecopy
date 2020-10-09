@@ -1,24 +1,24 @@
 ---
-- name: "basedir - ensure created"
+- name: 'basedir - ensure created'
   file:
-    dest: "{{ item.home }}/.sitecopy"
-    state: directory
-    owner: "{{ item.user | default(omit) }}"
-    group: "{{ item.group | default(omit) }}"
-    mode: 0700
-  loop: "{{ sitecopy__users }}"
+    dest: '{{ item.home }}/.sitecopy'
+    state: 'directory'
+    owner: '{{ item.user | default(omit) }}'
+    group: '{{ item.group | default(omit) }}'
+    mode: '0700'
   loop_control:
-    label: "{{ item.home }}/.sitecopy"
+    label: '{{ item.home }}/.sitecopy'
+  loop: '{{ sitecopy__users }}'
 
-- name: "sitecopyrc - ensure configured"
+- name: 'sitecopyrc - ensure configured'
   template:
-    dest: "{{ item.home }}/.sitecopyrc"
-    src: "sitecopyrc.j2"
-    owner: "{{ item.user | default(omit) }}"
-    group: "{{ item.group | default(omit) }}"
-    mode: 0400
+    dest: '{{ item.home }}/.sitecopyrc'
+    src: 'sitecopyrc.j2'
+    owner: '{{ item.user | default(omit) }}'
+    group: '{{ item.group | default(omit) }}'
+    mode: '0400'
   # To protect passwords configured in sitecopyrc to appear in logs
   no_log: True
-  loop: "{{ sitecopy__users }}"
   loop_control:
-    label: "{{ item.home }}/.sitecopyrc"
+    label: '{{ item.home }}/.sitecopyrc'
+  loop: '{{ sitecopy__users }}'

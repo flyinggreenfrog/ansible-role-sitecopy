@@ -1,36 +1,13 @@
 ---
-- name: "main variables - ensure validated"
-  assert:
-    that:
-      - "{{ item.result }}"
-    quiet: "{{ sitecopy__quiet }}"
-  loop:
-    - result: "{{ sitecopy__users | type_debug == 'list' }}"
-      description: "sitecopy__users is list"
-      value: "{{ sitecopy__users | type_debug }}"
-    - result: "{{ sitecopy__packages_manage is boolean }}"
-      description: "sitecopy__packages_manage is boolean"
-      value: "{{ sitecopy__packages_manage }}"
-  loop_control:
-    label: "{{ item.description }}"
-  tags: sitecopy
+- name: 'OS family specific variables - ensure included'
+  tags: 'sitecopy'
+  include_vars: '{{ ansible_os_family }}.yml'
 
-- name: "user existence - ensure checked"
-  getent:
-    database: passwd
-    key: "{{ item.user }}"
-  loop: "{{ sitecopy__users }}"
-  loop_control:
-    label: "sitecopy__users: {{ item.user }}"
-  tags: sitecopy
-
-- name: "OS family specific variables - ensure included"
-  include_vars: "{{ ansible_os_family }}.yml"
-  tags: sitecopy
-
-- import_tasks: install.yml
+- name: 'packages tasks - ensure imported'
+  tags: ['sitecopy', 'online']
+  import_tasks: 'packages.yml'
   when: sitecopy__packages_manage
-  tags: sitecopy, online
 
-- import_tasks: config.yml
-  tags: sitecopy
+- name: 'config tasks - ensure imported'
+  tags: 'sitecopy'
+  import_tasks: 'config.yml'

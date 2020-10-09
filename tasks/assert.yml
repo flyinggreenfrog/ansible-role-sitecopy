@@ -1,0 +1,27 @@
+---
+- name: 'variables - ensure validated'
+  assert:
+    that:
+      - "lookup('vars', item.a, defaults='NOT DEFINED') {{ item.b }}"
+    fail_msg: "{{ item.a }}
+      == '{{ lookup('vars', item.a, defaults='NOT DEFINED') }}"
+    quiet: True
+  loop_control:
+    label: '{{ item.a }}'
+  loop:
+    - a: 'sitecopy__packages_manage'
+      b: 'is boolean'
+    - a: 'sitecopy__packages_state'
+      b: "in ['present', 'absent']"
+    - a: 'sitecopy__packages'
+      b: 'is sequence'
+    - a: 'sitecopy__users'
+      b: 'is sequence'
+
+- name: 'user existence - ensure checked'
+  getent:
+    database: 'passwd'
+    key: '{{ item.user }}'
+  loop_control:
+    label: '{{ item.user }}'
+  loop: '{{ sitecopy__users }}'

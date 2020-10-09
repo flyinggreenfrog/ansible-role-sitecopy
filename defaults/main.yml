@@ -1,20 +1,19 @@
 ---
-sitecopy__quiet: True
 sitecopy__packages_manage: True
-sitecopy__packages_state: present
+sitecopy__packages_state: 'present'
 sitecopy__users: []
 #sitecopy__users:
-#  - user: tux
-#    group: users
-#    home: /home/tux
+#  - user: 'tux'
+#    group: 'users'
+#    home: '/home/tux'
 #    sitecopy__sites:
-#      - site: www
-#        server: ftp.example.org
-#        username: USERNAME
-#        password: PASSWORD
-#        local: ~/www
-#        remote: /
+#      - site: 'www'
+#        server: 'ftp.example.org'
+#        username: 'USERNAME'
+#        password: 'PASSWORD'
+#        local: '~/www'
+#        remote: '/'
 #        excludes:
-#          - /*.swp
+#          - '/*.swp'
 sitecopy__default_excludes:
   - '*.swp'
