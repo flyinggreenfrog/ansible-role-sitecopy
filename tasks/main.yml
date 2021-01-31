@@ -1,13 +1,14 @@
 ---
-- name: 'OS family specific variables - ensure included'
-  tags: 'sitecopy'
+- name: 'include OS family specific variables'
   include_vars: '{{ ansible_os_family }}.yml'
-
-- name: 'packages tasks - ensure imported'
-  tags: ['sitecopy', 'online']
-  import_tasks: 'packages.yml'
-  when: sitecopy__packages_manage
-
-- name: 'config tasks - ensure imported'
   tags: 'sitecopy'
-  import_tasks: 'config.yml'
+
+- import_tasks: 'validate.yml'
+  tags: 'sitecopy'
+
+- import_tasks: 'packages.yml'
+  when: sitecopy__packages_manage
+  tags: 'sitecopy'
+
+- import_tasks: 'config.yml'
+  tags: 'sitecopy'

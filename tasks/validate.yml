@@ -1,0 +1,34 @@
+---
+- block:
+    - name: 'validate variables'
+      assert:
+        that:
+          - sitecopy__packages_manage is boolean
+          - sitecopy__packages_state in ['present', 'absent']
+          - sitecopy__packages is not string and
+            sitecopy__packages is not mapping and
+            sitecopy__packages is sequence
+          - sitecopy__users is not string and
+            sitecopy__users is not mapping and
+            sitecopy__users is sequence
+        quiet: true
+  rescue:
+    - name: 'output variables values'
+      debug:
+        msg: "{{ lookup('vars', item) }}"
+      loop:
+        - sitecopy__packages_manage
+        - sitecopy__packages_state
+        - sitecopy__packages
+        - sitecopy__users
+    - name: 'fail -> variable validationerrors'
+      fail:
+        msg: 'check variables in last 2 tasks'
+
+- name: 'user existence - ensure checked'
+  getent:
+    database: 'passwd'
+    key: '{{ item.user }}'
+  loop_control:
+    label: '{{ item.user }}'
+  loop: '{{ sitecopy__users }}'

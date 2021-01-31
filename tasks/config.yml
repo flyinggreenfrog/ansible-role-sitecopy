@@ -18,7 +18,7 @@
     group: '{{ item.group | default(omit) }}'
     mode: '0400'
   # To protect passwords configured in sitecopyrc to appear in logs
-  no_log: True
+  no_log: true
   loop_control:
     label: '{{ item.home }}/.sitecopyrc'
   loop: '{{ sitecopy__users }}'

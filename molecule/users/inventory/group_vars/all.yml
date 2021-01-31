@@ -1,0 +1,14 @@
+---
+sitecopy__users:
+  - user: 'vagrant'
+    group: 'vagrant'
+    home: '/home/vagrant'
+    sitecopy__sites:
+      - site: 'www'
+        server: 'ftp.example.org'
+        username: 'USERNAME'
+        password: 'PASSWORD'
+        local: '~/www'
+        remote: '/'
+        excludes:
+          - '/*.swp'

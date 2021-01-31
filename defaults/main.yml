@@ -1,5 +1,5 @@
 ---
-sitecopy__packages_manage: True
+sitecopy__packages_manage: true
 sitecopy__packages_state: 'present'
 sitecopy__users: []
 #sitecopy__users:
